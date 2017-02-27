@@ -123,6 +123,7 @@ void ICACHE_FLASH_ATTR easyMesh::handleNodeSync( meshConnectionType *conn, JsonO
     uint32_t        remoteChipId = (uint32_t)root["from"];
     uint32_t        destId = (uint32_t)root["dest"];
     bool            reSyncAllSubConnections = false;
+    uint32_t        nodeTime = getNodeTime();
 
     if( (destId == 0) && (findConnection( remoteChipId ) != NULL) ) {
         // this is the first NODE_SYNC_REQUEST from a station
@@ -156,7 +157,7 @@ void ICACHE_FLASH_ATTR easyMesh::handleNodeSync( meshConnectionType *conn, JsonO
         case NODE_SYNC_REPLY:
             debugMsg( SYNC, "handleNodeSync(): valid NODE_SYNC_REPLY from %d\n", conn->chipId );
             conn->nodeSyncRequest = 0;  //reset nodeSyncRequest Timer  ????
-            if ( conn->lastTimeSync == 0 )
+            if ( conn->lastTimeSync + SYNC_INTERVAL * 1000 < nodeTime )
                 startTimeSync( conn );
             break;
         default:

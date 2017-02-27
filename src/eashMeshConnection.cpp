@@ -105,7 +105,6 @@ void ICACHE_FLASH_ATTR easyMesh::manageConnections( void ) {
                      connection->lastRecieved + ( NODE_TIMEOUT * 3 / 4 ) < nodeTime )
                 ) {
                 connection->nodeSyncStatus = NEEDED;
-                connection->timeSyncStatus = NEEDED;
             }
         }
         connection++;
